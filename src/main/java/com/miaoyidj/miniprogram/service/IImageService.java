@@ -2,6 +2,9 @@ package com.miaoyidj.miniprogram.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.miaoyidj.miniprogram.entity.Image;
+import com.miaoyidj.miniprogram.entity.ProductIndex;
+
+import java.util.List;
 
 /**
  * @ClassName IImageService
@@ -11,4 +14,5 @@ import com.miaoyidj.miniprogram.entity.Image;
  * @Version 1.0
  **/
 public interface IImageService extends IService<Image> {
+    List<ProductIndex> getIndexProduct();
 }

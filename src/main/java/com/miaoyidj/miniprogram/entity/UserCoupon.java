@@ -7,20 +7,20 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @ClassName User2coupon
+ * @ClassName UserCoupon
  * @Description TODO
  * @Author Kaiser
- * @Date 2019/7/7 12:20
+ * @Date 2019/7/18 10:31
  * @Version 1.0
  **/
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class User2coupon implements Serializable {
-    private static final long serialVersionUID = -3961038143586442470L;
+@NoArgsConstructor
+public class UserCoupon implements Serializable {
+    private static final long serialVersionUID = 3966334130722709320L;
     private Integer ucId;
-    private int uId;
-    private int cId;
+    private User user;
+    private Coupon coupon;
     private String ucMobile;
     private boolean ucStatus;
 }

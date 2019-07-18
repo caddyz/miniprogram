@@ -19,8 +19,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Coupon implements Serializable {
     private static final long serialVersionUID = -8506236228030464387L;
-    private int cId;
+    private Integer cId;
     private String cName;
     private BigDecimal cValue;
     private int cStatus;
+    private String cAging;
 }

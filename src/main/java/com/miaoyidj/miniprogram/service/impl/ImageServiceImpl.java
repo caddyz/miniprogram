@@ -2,9 +2,12 @@ package com.miaoyidj.miniprogram.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.miaoyidj.miniprogram.entity.Image;
+import com.miaoyidj.miniprogram.entity.ProductIndex;
 import com.miaoyidj.miniprogram.mapper.ImageMapper;
 import com.miaoyidj.miniprogram.service.IImageService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @ClassName ImageServiceImpl
@@ -15,4 +18,8 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class ImageServiceImpl extends ServiceImpl<ImageMapper, Image> implements IImageService {
+    @Override
+    public List<ProductIndex> getIndexProduct() {
+        return baseMapper.selectIndexProduct();
+    }
 }

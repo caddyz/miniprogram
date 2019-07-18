@@ -2,6 +2,9 @@ package com.miaoyidj.miniprogram.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.miaoyidj.miniprogram.entity.User2coupon;
+import com.miaoyidj.miniprogram.entity.UserCoupon;
+
+import java.util.List;
 
 /**
  * @ClassName IUser2couponService
@@ -11,4 +14,10 @@ import com.miaoyidj.miniprogram.entity.User2coupon;
  * @Version 1.0
  **/
 public interface IUser2couponService extends IService<User2coupon> {
+    /**
+     *  查询用户优惠券
+     * @param userId 用户id
+     * @return
+     */
+    List<UserCoupon> getUserCoupon(String userId);
 }

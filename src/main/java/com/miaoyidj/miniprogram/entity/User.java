@@ -18,9 +18,11 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class User implements Serializable {
     private static final long serialVersionUID = -6339299387672128091L;
-    private int uId;
+    private Integer uId;
     private String uName;
     private boolean uStatus;
     private String uOpenid;
     private int uPoints;
+    private int uMemberMoney;
+    private String uAvatar;
 }

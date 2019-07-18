@@ -18,7 +18,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Address implements Serializable {
     private static final long serialVersionUID = -6932944096179429104L;
-    private int aId;
+    private Integer aId;
     private String aAddress;
+    private String aAddressDetail;
     private int uId;
+    private String aMobile;
+    private String aName;
 }

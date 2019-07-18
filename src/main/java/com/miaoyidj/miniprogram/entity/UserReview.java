@@ -7,20 +7,20 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @ClassName Review
+ * @ClassName UserReview
  * @Description TODO
  * @Author Kaiser
- * @Date 2019/7/7 12:16
+ * @Date 2019/7/18 11:56
  * @Version 1.0
  **/
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Review implements Serializable {
-    private static final long serialVersionUID = -1971217997842081928L;
+@NoArgsConstructor
+public class UserReview implements Serializable {
+    private static final long serialVersionUID = -3461265538921975263L;
     private Integer rId;
     private int rRate;
     private String rContent;
     private String rReviewTime;
-    private Integer uId;
+    private User user;
 }

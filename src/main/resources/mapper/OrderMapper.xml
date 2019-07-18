@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.miaoyidj.miniprogram.mapper.OrderMapper">
+    <resultMap id="OrderSelectMap" type="com.miaoyidj.miniprogram.entity.OrderSelect" autoMapping="true">
+        <id property="oId" column="o_id"/>
+        <collection property="address" column="a_id" ofType="com.miaoyidj.miniprogram.entity.Address" autoMapping="true"/>
+        <collection property="product" column="p_id" ofType="com.miaoyidj.miniprogram.entity.Product" autoMapping="true"/>
+    </resultMap>
+    <select id="selectOrderByUser" resultMap="OrderSelectMap">
+      SELECT <include refid="orderSelectColumn"/> FROM `order` o, address a, product p WHERE o.a_id = a.a_id AND o.p_id = p.p_id AND o.u_id = #{userId}
+    </select>
+    <sql id="orderSelectColumn">o.o_id,o.o_number,o.o_total_price,o.o_pay_price,o.o_user_message,o.o_create_time,o.o_status,o.o_subscribe_time,a.a_id,
+a.a_address,a.a_address_detail,a.a_name,a.a_mobile,p.p_id,p.p_name,p.p_price,p.p_cover,p.p_intro</sql>
 </mapper>

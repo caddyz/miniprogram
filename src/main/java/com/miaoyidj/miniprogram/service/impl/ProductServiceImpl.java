@@ -6,6 +6,8 @@ import com.miaoyidj.miniprogram.mapper.ProductMapper;
 import com.miaoyidj.miniprogram.service.IProductService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ClassName ProductServiceImpl
  * @Description TODO
@@ -15,4 +17,8 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> implements IProductService {
+    @Override
+    public List<Product> getAllProduct() {
+        return baseMapper.selectAllProduct();
+    }
 }

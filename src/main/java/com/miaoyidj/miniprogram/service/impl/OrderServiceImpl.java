@@ -2,9 +2,12 @@ package com.miaoyidj.miniprogram.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.miaoyidj.miniprogram.entity.Order;
+import com.miaoyidj.miniprogram.entity.OrderSelect;
 import com.miaoyidj.miniprogram.mapper.OrderMapper;
 import com.miaoyidj.miniprogram.service.IOrderService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @ClassName OrderServiceImpl
@@ -15,4 +18,8 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService {
+    @Override
+    public List<OrderSelect> getOrderByUser(String userId) {
+        return baseMapper.selectOrderByUser(userId);
+    }
 }
