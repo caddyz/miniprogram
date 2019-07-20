@@ -14,5 +14,9 @@ import java.util.List;
  * @Version 1.0
  **/
 public interface IImageService extends IService<Image> {
+    /**
+     *  获取首页分类数据
+     * @return
+     */
     List<ProductIndex> getIndexProduct();
 }

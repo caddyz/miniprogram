@@ -8,5 +8,5 @@
     <select id="selectIndexProduct" resultMap="ProductIndexMap">
         SELECT <include refid="ProductIndexColumn"/> FROM image i, product p WHERE i.p_id = p.p_id
     </select>
-    <sql id="ProductIndexColumn">i.i_id,i.i_status,i.i_contro,p.p_id,p.p_name,p.p_price,p.p_cover,p.p_intro</sql>
+    <sql id="ProductIndexColumn">i.i_id,i.i_status,i.i_contro,p.p_id,p.p_name,p.p_original_price,p.p_price,p.p_cover,p.p_intro_info,p.p_detail_info</sql>
 </mapper>

@@ -21,5 +21,5 @@ public class ProductIndex implements Serializable {
     private Integer iId;
     private Product product;
     private int iContro;
-    private boolean iStatus;
+    private int iStatus;
 }

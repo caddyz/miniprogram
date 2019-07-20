@@ -4,5 +4,5 @@
     <select id="selectAllProduct" resultType="com.miaoyidj.miniprogram.entity.Product">
         SELECT <include refid="productColumn"/> FROM product
     </select>
-    <sql id="productColumn">p_id,p_name,p_price,p_cover</sql>
+    <sql id="productColumn">p_id,p_name,p_original_price,p_price,p_cover,p_intro_info,p_detail_info</sql>
 </mapper>

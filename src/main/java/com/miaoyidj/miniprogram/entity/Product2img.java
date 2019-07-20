@@ -7,19 +7,18 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @ClassName Image
+ * @ClassName Product2img
  * @Description TODO
  * @Author Kaiser
- * @Date 2019/7/7 11:58
+ * @Date 2019/7/20 13:27
  * @Version 1.0
  **/
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Image implements Serializable {
-    private static final long serialVersionUID = 7737738616479251403L;
-    private Integer iId;
+@AllArgsConstructor
+public class Product2img implements Serializable {
+    private static final long serialVersionUID = 9172137406182617155L;
+    private Integer piId;
+    private String piImgUrl;
     private int pId;
-    private int iContro;
-    private int iStatus;
 }

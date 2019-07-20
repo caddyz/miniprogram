@@ -16,5 +16,5 @@ logging:
   config: classpath:log4j2.yml
 server:
   port: 9090
-  #servlet:
-    #context-path: /nimei/
+  servlet:
+    context-path: /api/

@@ -5,8 +5,6 @@ import com.miaoyidj.miniprogram.entity.Order;
 import com.miaoyidj.miniprogram.entity.OrderSelect;
 import org.apache.ibatis.annotations.Param;
 
-import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
 
 /**
