@@ -8,6 +8,8 @@ package com.miaoyidj.miniprogram.controller;
  * @Version 1.0
  **/
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.miaoyidj.miniprogram.entity.Order;
 import com.miaoyidj.miniprogram.service.IOrderService;
 import com.miaoyidj.miniprogram.util.GetResult;
@@ -58,5 +60,17 @@ public class OrderController {
     @GetMapping("/userGetAllOrder")
     public JsonData userGetAllOrder(String userId){
         return GetResult.result(orderService.getOrderByUser(userId));
+    }
+
+    /**
+     *  取消订单
+     * @param orderNumber 订单号
+     * @return
+     */
+    @GetMapping("/closeOrder")
+    public JsonData closeOrder(String orderNumber){
+        Order order = orderService.getOne(new QueryWrapper<Order>().eq("o_number", orderNumber));
+        order.setOStatus(0);
+        return GetResult.boReturn(orderService.update(order,new UpdateWrapper<Order>().eq("o_number", orderNumber)));
     }
 }

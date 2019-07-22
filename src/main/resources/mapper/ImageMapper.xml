@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.miaoyidj.miniprogram.mapper.ImageMapper">
+    <cache type="com.miaoyidj.miniprogram.config.RedisCacheMybatis">
+        <property name="eviction" value="LRU"/>
+    </cache>
     <resultMap id="ProductIndexMap" type="com.miaoyidj.miniprogram.entity.ProductIndex" autoMapping="true">
         <id column="i_id" property="iId"/>
         <collection property="product" column="p_id" ofType="com.miaoyidj.miniprogram.entity.Product" autoMapping="true"/>

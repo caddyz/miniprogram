@@ -4,9 +4,9 @@ spring:
   profiles:
     active: dev
     include: druid,mybatisplus,httpclient
-  #redis:
-    #host: 140.246.250.63
-    #password: CDhuayuan@2019$anniemodern
+  redis:
+    host: localhost
+    #password: miaoyidj158
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${add}:3306/${db}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&tinyIntlisBit=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
@@ -18,3 +18,17 @@ server:
   port: 9090
   servlet:
     context-path: /api/
+wx:
+  pay:
+    appId: wx33593e56c8dba956
+    #微信支付商户号
+    mchId: 1344617301
+    #微信支付商户密钥
+    mchKey: miaoyidojia158MIAOYIDAOJIA158158
+    # p12证书的位置，可以指定绝对路径，也可以指定类路径（以classpath:开头）
+    keyPath: classpath:/cert/v.p12
+  miniapp:
+    configs:
+      - appid: wx33593e56c8dba956
+        secret: cd9f53f9d7b5019389dd4491981af15c
+        msgDataFormat: JSON

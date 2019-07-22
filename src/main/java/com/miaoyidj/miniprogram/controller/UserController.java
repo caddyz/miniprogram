@@ -30,10 +30,6 @@ public class UserController {
      */
     @GetMapping("/getUserInfo")
     public JsonData getUserInfo(String id) {
-        System.out.println("生成订单号："+IdUtil.getInstance().generateOrderNo());
-        System.out.println("生成ID："+IdUtil.getInstance().generateIdNo());
-        System.out.println("获取当前时间："+ TimeUtil.getCurrentTime());
-        System.out.println("生成时间戳："+TimeUtil.getSignTimeStmap());
         User one = userService.getOne(new QueryWrapper<User>().eq("u_id", id));
         return GetResult.result(one);
     }

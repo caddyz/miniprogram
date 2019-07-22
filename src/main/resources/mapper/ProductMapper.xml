@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.miaoyidj.miniprogram.mapper.ProductMapper">
+    <cache type="com.miaoyidj.miniprogram.config.RedisCacheMybatis">
+        <property name="eviction" value="LRU"/>
+    </cache>
     <select id="selectAllProduct" resultType="com.miaoyidj.miniprogram.entity.Product">
         SELECT <include refid="productColumn"/> FROM product
     </select>

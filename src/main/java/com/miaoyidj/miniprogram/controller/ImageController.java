@@ -1,6 +1,8 @@
 package com.miaoyidj.miniprogram.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.miaoyidj.miniprogram.entity.Image;
 import com.miaoyidj.miniprogram.service.IImageService;
 import com.miaoyidj.miniprogram.util.GetResult;
 import com.miaoyidj.miniprogram.util.JsonData;
