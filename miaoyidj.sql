@@ -11,7 +11,7 @@
  Target Server Version : 50716
  File Encoding         : 65001
 
- Date: 20/07/2019 23:11:40
+ Date: 28/07/2019 02:07:19
 */
 
 SET NAMES utf8mb4;
@@ -29,12 +29,14 @@ CREATE TABLE `address`  (
   `a_mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '手机',
   `a_name` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '联系人',
   PRIMARY KEY (`a_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of address
 -- ----------------------------
-INSERT INTO `address` VALUES (1, 'sfa', 'vvvvvvv', 2, '123', 'asd');
+INSERT INTO `address` VALUES (1, 'sfa', 'vvvvvvv啊沙发上', 3, '123456', '哈哈哈');
+INSERT INTO `address` VALUES (2, '金牛区', '什么都没有', 3, '12345678901', '小李');
+INSERT INTO `address` VALUES (3, '青羊区', 'asd', 3, '45678912301', 'xiao');
 
 -- ----------------------------
 -- Table structure for coupon
@@ -47,13 +49,15 @@ CREATE TABLE `coupon`  (
   `c_status` int(1) NULL DEFAULT NULL COMMENT '1：打折券  2：抵扣券',
   `c_aging` datetime(0) NULL DEFAULT NULL COMMENT '过期时间',
   PRIMARY KEY (`c_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of coupon
 -- ----------------------------
-INSERT INTO `coupon` VALUES (1, 'asdas', 35.00, 1, NULL);
-INSERT INTO `coupon` VALUES (2, 'ggg', 8.00, 2, NULL);
+INSERT INTO `coupon` VALUES (1, '新人优惠券', 20.00, 1, '2020-07-22 22:07:20');
+INSERT INTO `coupon` VALUES (2, '满减', 8.00, 2, '2019-12-11 00:00:00');
+INSERT INTO `coupon` VALUES (3, '单项优惠', 50.00, 1, '2019-09-30 09:37:03');
+INSERT INTO `coupon` VALUES (4, '测试优惠券', 1.00, 2, '2019-01-23 00:00:00');
 
 -- ----------------------------
 -- Table structure for image
@@ -78,12 +82,12 @@ INSERT INTO `image` VALUES (5, 4, 1, 0);
 INSERT INTO `image` VALUES (6, 3, 1, 0);
 
 -- ----------------------------
--- Table structure for order
+-- Table structure for miaoyiorder
 -- ----------------------------
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE `order`  (
+DROP TABLE IF EXISTS `miaoyiorder`;
+CREATE TABLE `miaoyiorder`  (
   `o_id` int(7) NOT NULL AUTO_INCREMENT,
-  `o_number` int(16) NOT NULL COMMENT '订单号',
+  `o_number` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '订单号',
   `a_id` int(7) NULL DEFAULT NULL,
   `p_id` int(7) NULL DEFAULT NULL,
   `u_id` int(7) NULL DEFAULT NULL,
@@ -97,13 +101,35 @@ CREATE TABLE `order`  (
   `o_status` int(1) NOT NULL DEFAULT 1 COMMENT '0：取消 1：未支付 2：已支付 3：已完成',
   `o_subscribe_time` varchar(55) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '预约时间',
   PRIMARY KEY (`o_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of order
+-- Records of miaoyiorder
 -- ----------------------------
-INSERT INTO `order` VALUES (1, 123, 1, 1, 2, 456.00, 12.00, 'dfdf', '2019-07-18 09:30:38', NULL, NULL, NULL, 1, NULL);
-INSERT INTO `order` VALUES (2, 111, 1, 1, 2, 55.00, 30.00, 'f', '2019-07-18 10:09:18', NULL, NULL, NULL, 1, 'djdjdjd');
+INSERT INTO `miaoyiorder` VALUES (1, '123', 1, 1, 2, 456.00, 12.00, 'dfdf', '2019-07-18 09:30:38', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `miaoyiorder` VALUES (2, '111', 1, 1, 2, 55.00, 30.00, '', '2019-07-18 10:09:18', NULL, NULL, NULL, 1, 'djdjdjd');
+INSERT INTO `miaoyiorder` VALUES (3, '15638574485320329499', 2, 4, 3, 599.00, 599.00, NULL, NULL, NULL, NULL, NULL, 0, '2019-07-23  13');
+INSERT INTO `miaoyiorder` VALUES (4, '15638593786152307112', 3, 4, 3, 599.00, 569.00, NULL, '2019-07-23 13:22:58', NULL, NULL, NULL, 1, '2019-07-23  14');
+INSERT INTO `miaoyiorder` VALUES (5, '15638595769099834639', 3, 4, 3, 599.00, 569.00, NULL, '2019-07-23 13:26:16', NULL, NULL, NULL, 1, '2019-07-23  14');
+INSERT INTO `miaoyiorder` VALUES (6, '15638598470689518017', 2, 4, 3, 599.00, 599.00, NULL, '2019-07-23 13:30:47', NULL, NULL, NULL, 1, '2019-07-23  14');
+INSERT INTO `miaoyiorder` VALUES (7, '15638599406378585560', 2, 4, 3, 599.00, 599.00, NULL, '2019-07-23 13:32:20', NULL, NULL, NULL, 1, '2019-07-23  14');
+INSERT INTO `miaoyiorder` VALUES (8, '15638600331668457304', 2, 3, 3, 499.00, 499.00, NULL, '2019-07-23 13:33:53', NULL, NULL, NULL, 1, '2019-07-23  14');
+INSERT INTO `miaoyiorder` VALUES (9, '15638602336306723418', 2, 4, 3, 599.00, 599.00, 'djfhj', '2019-07-23 13:37:13', NULL, NULL, NULL, 1, '2019-07-23  14');
+INSERT INTO `miaoyiorder` VALUES (10, '15638668096624557158', 2, 3, 3, 499.00, 449.00, NULL, '2019-07-23 15:26:49', NULL, NULL, NULL, 1, '2019-07-23  16');
+INSERT INTO `miaoyiorder` VALUES (11, '15638668389269296602', 2, 3, 3, 499.00, 449.00, NULL, '2019-07-23 15:27:18', NULL, NULL, NULL, 1, '2019-07-23  16');
+INSERT INTO `miaoyiorder` VALUES (12, '15638699495455971257', 1, 2, 3, 399.00, 379.00, NULL, '2019-07-23 16:19:09', NULL, NULL, NULL, 1, '2019-07-23  17');
+
+-- ----------------------------
+-- Table structure for miaoyirules
+-- ----------------------------
+DROP TABLE IF EXISTS `miaoyirules`;
+CREATE TABLE `miaoyirules`  (
+  `r_id` int(7) NOT NULL AUTO_INCREMENT,
+  `r_den_points` int(7) NOT NULL COMMENT '积分兑换多少分母',
+  `r_mol_points` int(7) NOT NULL COMMENT '分子',
+  `r_points_rules` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  PRIMARY KEY (`r_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for product
@@ -127,12 +153,6 @@ INSERT INTO `product` VALUES (1, '妙尚佳全身按摩', 499.00, 299.00, 'https
 INSERT INTO `product` VALUES (2, '妙尚佳精油开背', 599.00, 399.00, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E7%B2%BE%E6%B2%B9%E5%BC%80%E8%83%8C/1%E5%89%AF%E6%9C%AC.jpg', '妙手关注健康，服务愉悦身心。专业上门到家，提供酒店，居家服务。', NULL);
 INSERT INTO `product` VALUES (3, '妙尚佳全身精油推拿', 699.00, 499.00, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/9%E5%89%AF%E6%9C%AC.jpg', '妙手关注健康，服务愉悦身心。专业上门到家，提供酒店，居家服务。', NULL);
 INSERT INTO `product` VALUES (4, '妙尚佳精致养生精油SPA', 799.00, 599.00, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%BB%E7%94%9F%E7%B2%BE%E6%B2%B9SPA/10%E6%B7%98%E5%AE%9D.jpg', '妙手关注健康，服务愉悦身心。专业上门到家，提供酒店，居家服务。', NULL);
-INSERT INTO `product` VALUES (5, 'v', 0.00, 98.00, 'https://img-oss.yunshanmeicai.com/goods/default/31d8dfa4-0d7b-4694-80f9-41b07c9d0a3a.png', '656', NULL);
-INSERT INTO `product` VALUES (6, 'k', 0.00, 44.00, 'https://img-oss.yunshanmeicai.com/goods/default/31d8dfa4-0d7b-4694-80f9-41b07c9d0a3a.png', '6', NULL);
-INSERT INTO `product` VALUES (7, '1', 0.00, 1.00, 'https://img-oss.yunshanmeicai.com/goods/default/31d8dfa4-0d7b-4694-80f9-41b07c9d0a3a.png', '1', NULL);
-INSERT INTO `product` VALUES (8, '1', 0.00, 1.00, 'https://img-oss.yunshanmeicai.com/goods/default/31d8dfa4-0d7b-4694-80f9-41b07c9d0a3a.png', '1', NULL);
-INSERT INTO `product` VALUES (9, '1', 0.00, 1.00, 'https://img-oss.yunshanmeicai.com/goods/default/31d8dfa4-0d7b-4694-80f9-41b07c9d0a3a.png', '1', NULL);
-INSERT INTO `product` VALUES (10, 'f', 0.00, 9.00, 'https://img-oss.yunshanmeicai.com/goods/default/31d8dfa4-0d7b-4694-80f9-41b07c9d0a3a.png', 'd', NULL);
 
 -- ----------------------------
 -- Table structure for product2img
@@ -143,7 +163,7 @@ CREATE TABLE `product2img`  (
   `pi_img_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图片地址',
   `p_id` int(7) NOT NULL COMMENT '对应产品',
   PRIMARY KEY (`pi_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of product2img
@@ -155,6 +175,30 @@ INSERT INTO `product2img` VALUES (4, 'https://miaoyidj-1253818867.cos.ap-chengdu
 INSERT INTO `product2img` VALUES (5, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E6%8C%89%E6%91%A9/5%E5%89%AF%E6%9C%AC.jpg', 1);
 INSERT INTO `product2img` VALUES (6, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E6%8C%89%E6%91%A9/6%E5%89%AF%E6%9C%AC.jpg', 1);
 INSERT INTO `product2img` VALUES (7, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E6%8C%89%E6%91%A9/7%E5%89%AF%E6%9C%AC.jpg', 1);
+INSERT INTO `product2img` VALUES (8, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E7%B2%BE%E6%B2%B9%E5%BC%80%E8%83%8C/1%E5%89%AF%E6%9C%AC.jpg', 2);
+INSERT INTO `product2img` VALUES (9, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E7%B2%BE%E6%B2%B9%E5%BC%80%E8%83%8C/2%E5%89%AF%E6%9C%AC.jpg', 2);
+INSERT INTO `product2img` VALUES (10, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E7%B2%BE%E6%B2%B9%E5%BC%80%E8%83%8C/3%E5%89%AF%E6%9C%AC.jpg', 2);
+INSERT INTO `product2img` VALUES (11, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E7%B2%BE%E6%B2%B9%E5%BC%80%E8%83%8C/4%E5%89%AF%E6%9C%AC.jpg', 2);
+INSERT INTO `product2img` VALUES (12, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E7%B2%BE%E6%B2%B9%E5%BC%80%E8%83%8C/5%E5%89%AF%E6%9C%AC.jpg', 2);
+INSERT INTO `product2img` VALUES (13, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E7%B2%BE%E6%B2%B9%E5%BC%80%E8%83%8C/6%E5%89%AF%E6%9C%AC.jpg', 2);
+INSERT INTO `product2img` VALUES (14, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E7%B2%BE%E6%B2%B9%E5%BC%80%E8%83%8C/7%E5%89%AF%E6%9C%AC.jpg', 2);
+INSERT INTO `product2img` VALUES (15, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/10%E5%89%AF%E6%9C%AC.jpg', 3);
+INSERT INTO `product2img` VALUES (16, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/11%E5%89%AF%E6%9C%AC.jpg', 3);
+INSERT INTO `product2img` VALUES (17, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/12%E5%89%AF%E6%9C%AC.jpg', 3);
+INSERT INTO `product2img` VALUES (18, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/13%E5%89%AF%E6%9C%AC.jpg', 3);
+INSERT INTO `product2img` VALUES (19, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/14%E5%89%AF%E6%9C%AC.jpg', 3);
+INSERT INTO `product2img` VALUES (20, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/15%E5%89%AF%E6%9C%AC.jpg', 3);
+INSERT INTO `product2img` VALUES (21, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/16%E5%89%AF%E6%9C%AC.jpg', 3);
+INSERT INTO `product2img` VALUES (22, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/17%E5%89%AF%E6%9C%AC.jpg', 3);
+INSERT INTO `product2img` VALUES (23, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%A8%E8%BA%AB%E7%B2%BE%E6%B2%B9%E6%8E%A8%E6%8B%BF/9%E5%89%AF%E6%9C%AC.jpg', 3);
+INSERT INTO `product2img` VALUES (24, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%BB%E7%94%9F%E7%B2%BE%E6%B2%B9SPA/10%E6%B7%98%E5%AE%9D.jpg', 4);
+INSERT INTO `product2img` VALUES (25, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%BB%E7%94%9F%E7%B2%BE%E6%B2%B9SPA/11%E6%B7%98%E5%AE%9D.jpg', 4);
+INSERT INTO `product2img` VALUES (26, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%BB%E7%94%9F%E7%B2%BE%E6%B2%B9SPA/2%E6%B7%98%E5%AE%9D.jpg', 4);
+INSERT INTO `product2img` VALUES (27, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%BB%E7%94%9F%E7%B2%BE%E6%B2%B9SPA/3%E6%B7%98%E5%AE%9D.jpg', 4);
+INSERT INTO `product2img` VALUES (28, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%BB%E7%94%9F%E7%B2%BE%E6%B2%B9SPA/5%E6%B7%98%E5%AE%9D.jpg', 4);
+INSERT INTO `product2img` VALUES (29, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%BB%E7%94%9F%E7%B2%BE%E6%B2%B9SPA/6%E6%B7%98%E5%AE%9D.jpg', 4);
+INSERT INTO `product2img` VALUES (30, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%BB%E7%94%9F%E7%B2%BE%E6%B2%B9SPA/8%E6%B7%98%E5%AE%9D.jpg', 4);
+INSERT INTO `product2img` VALUES (31, 'https://miaoyidj-1253818867.cos.ap-chengdu.myqcloud.com/%E5%85%BB%E7%94%9F%E7%B2%BE%E6%B2%B9SPA/9%E6%B7%98%E5%AE%9D.jpg', 4);
 
 -- ----------------------------
 -- Table structure for review
@@ -163,19 +207,21 @@ DROP TABLE IF EXISTS `review`;
 CREATE TABLE `review`  (
   `r_id` int(10) NOT NULL AUTO_INCREMENT,
   `u_id` int(7) NOT NULL,
+  `p_id` int(7) NOT NULL COMMENT '产品',
   `r_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `r_review_time` datetime(0) NOT NULL,
   `r_rate` int(1) NOT NULL COMMENT '评分',
   PRIMARY KEY (`r_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of review
 -- ----------------------------
-INSERT INTO `review` VALUES (1, 1, '哈哈哈哈', '2019-07-17 19:49:08', 5);
-INSERT INTO `review` VALUES (2, 2, 'afasfa', '2019-07-17 19:49:27', 4);
-INSERT INTO `review` VALUES (3, 1, 'fsfs', '2019-07-17 19:57:29', 3);
-INSERT INTO `review` VALUES (4, 1, 'Jhjhj骄傲是否', '2019-07-17 19:58:16', 5);
+INSERT INTO `review` VALUES (1, 1, 1, '技师手法很好，下次还来。。。。。。', '2019-07-17 19:49:08', 5);
+INSERT INTO `review` VALUES (2, 2, 2, '没什么好评的', '2019-07-17 19:49:27', 4);
+INSERT INTO `review` VALUES (3, 1, 3, '不想说了', '2019-07-17 19:57:29', 3);
+INSERT INTO `review` VALUES (4, 1, 4, '这款产品非常不错！！！', '2019-07-17 19:58:16', 5);
+INSERT INTO `review` VALUES (5, 3, 4, '无法评论', '2019-07-22 20:53:00', 4);
 
 -- ----------------------------
 -- Table structure for user
@@ -190,13 +236,14 @@ CREATE TABLE `user`  (
   `u_member_money` int(8) NOT NULL DEFAULT 0 COMMENT '会员余额',
   `u_avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户图片',
   PRIMARY KEY (`u_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'kk', 1, '10', 0, 0, '');
+INSERT INTO `user` VALUES (1, '卡萨', 1, '10', 0, 0, 'https://i.loli.net/2017/08/21/599a521472424.jpg');
 INSERT INTO `user` VALUES (2, 'kkl', 1, '123', 0, 0, '');
+INSERT INTO `user` VALUES (3, 'KaiserZ', 1, 'osMvt0OWnmnWnSWez_WKbdc2Eh_o', 100, 0, 'https://wx.qlogo.cn/mmopen/vi_32/svdwib1rZsYZiasb4W5qicjuNI5ZicFqGfG7e0C3EW9bx3LpHRLmGMwziaXzw4BW0MiaPCRBJCeBAmibaPjbmSECHwD4A/132');
 
 -- ----------------------------
 -- Table structure for user2coupon
@@ -204,17 +251,18 @@ INSERT INTO `user` VALUES (2, 'kkl', 1, '123', 0, 0, '');
 DROP TABLE IF EXISTS `user2coupon`;
 CREATE TABLE `user2coupon`  (
   `uc_id` int(7) NOT NULL AUTO_INCREMENT,
-  `u_id` int(7) NULL DEFAULT NULL,
-  `c_id` int(7) NULL DEFAULT NULL,
-  `uc_mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `u_id` int(7) NOT NULL,
+  `c_id` int(7) NOT NULL,
   `uc_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1 :未使用   0：已使用',
   PRIMARY KEY (`uc_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user2coupon
 -- ----------------------------
-INSERT INTO `user2coupon` VALUES (1, 1, 1, '12', 0);
-INSERT INTO `user2coupon` VALUES (2, 1, 2, '23', 0);
+INSERT INTO `user2coupon` VALUES (1, 3, 1, 0);
+INSERT INTO `user2coupon` VALUES (2, 3, 2, 1);
+INSERT INTO `user2coupon` VALUES (3, 3, 3, 1);
+INSERT INTO `user2coupon` VALUES (4, 3, 4, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
