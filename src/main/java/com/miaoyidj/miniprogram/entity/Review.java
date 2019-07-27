@@ -23,4 +23,5 @@ public class Review implements Serializable {
     private String rContent;
     private String rReviewTime;
     private Integer uId;
+    private Integer pId;
 }

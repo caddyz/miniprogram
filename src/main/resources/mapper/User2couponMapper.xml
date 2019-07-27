@@ -6,9 +6,10 @@
         <collection property="user" column="u_id" ofType="com.miaoyidj.miniprogram.entity.User" autoMapping="true"/>
         <collection property="coupon" column="c_id" ofType="com.miaoyidj.miniprogram.entity.Coupon" autoMapping="true"/>
     </resultMap>
-    <select id="selectUserCoupon" resultMap="UserCouponMap">
-      SELECT <include refid="UserCouponColumn"/> FROM user2coupon uc, `user` u, coupon c WHERE uc.u_id = u.u_id AND uc.c_id = c.c_id AND uc.u_id = #{userId}
+    <select id="selectUserCoupon" resultType="com.miaoyidj.miniprogram.entity.Coupon">
+      SELECT <include refid="CouponColumn"/> FROM user2coupon uc, coupon c WHERE uc.c_id = c.c_id AND uc.uc_status = 1 AND NOW() &lt; c.c_aging AND uc.u_id = #{userId}
     </select>
     <sql id="UserCouponColumn">uc.uc_id,uc.uc_mobile,uc.uc_status,u.u_id,u.u_name,u.u_openid,u.u_points,u.u_status,u.u_member_money,u.u_avatar,c.c_id,
 c.c_name,c.c_value,c.c_status,c.c_aging</sql>
+    <sql id="CouponColumn">c.c_id,c.c_name,c.c_value,c.c_status,c.c_aging</sql>
 </mapper>

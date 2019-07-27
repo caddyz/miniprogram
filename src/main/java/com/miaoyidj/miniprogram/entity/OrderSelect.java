@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 public class OrderSelect implements Serializable {
     private static final long serialVersionUID = -3151296887240016093L;
     private Integer oId;
-    private int oNumber;
+    private String oNumber;
     private BigDecimal oTotalPrice;
     private BigDecimal oPayPrice;
     private String oUserMessage;

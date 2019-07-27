@@ -8,19 +8,19 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * @ClassName Order
+ * @ClassName Miaoyiorder
  * @Description TODO
  * @Author Kaiser
- * @Date 2019/7/7 12:05
+ * @Date 2019/7/23 12:45
  * @Version 1.0
  **/
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Order implements Serializable {
-    private static final long serialVersionUID = 7041351652742170781L;
+@AllArgsConstructor
+public class Miaoyiorder implements Serializable {
+    private static final long serialVersionUID = -3555943758225550190L;
     private Integer oId;
-    private int oNumber;
+    private String oNumber;
     private int aId;
     private int pId;
     private int uId;

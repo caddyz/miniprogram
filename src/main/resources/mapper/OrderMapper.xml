@@ -7,7 +7,10 @@
         <collection property="product" column="p_id" ofType="com.miaoyidj.miniprogram.entity.Product" autoMapping="true"/>
     </resultMap>
     <select id="selectOrderByUser" resultMap="OrderSelectMap">
-      SELECT <include refid="orderSelectColumn"/> FROM `order` o, address a, product p WHERE o.a_id = a.a_id AND o.p_id = p.p_id AND o.u_id = #{userId}
+      SELECT <include refid="orderSelectColumn"/> FROM miaoyiorder o, address a, product p WHERE o.a_id = a.a_id AND o.p_id = p.p_id AND o.u_id = #{userId}
+    </select>
+    <select id="selectOrderByOrderNo" resultMap="OrderSelectMap">
+        SELECT <include refid="orderSelectColumn"/> FROM miaoyiorder o, address a, product p WHERE o.a_id = a.a_id AND o.p_id = p.p_id AND o.o_number = #{orderNo}
     </select>
     <sql id="orderSelectColumn">o.o_id,o.o_number,o.o_total_price,o.o_pay_price,o.o_user_message,o.o_create_time,o.o_status,o.o_subscribe_time,a.a_id,
 a.a_address,a.a_address_detail,a.a_name,a.a_mobile,p.p_id,p.p_name,p.p_original_price,p.p_price,p.p_cover,p.p_intro_info,p.p_detail_info</sql>

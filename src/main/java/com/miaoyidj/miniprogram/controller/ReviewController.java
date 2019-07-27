@@ -37,8 +37,8 @@ public class ReviewController {
      * @return
      */
     @GetMapping("/getAllReview")
-    public JsonData getAllReview(){
-        return GetResult.result(reviewService.getAllReview());
+    public JsonData getAllReview(String productId){
+        return GetResult.result(reviewService.getAllReview(productId));
     }
 
     /**
@@ -49,8 +49,8 @@ public class ReviewController {
      * @return
      */
     @GetMapping("/addReview")
-    public JsonData addReview(int userId,String reviewContent,int reviewRate){
-        Review review = new Review(null,reviewRate,reviewContent, TimeUtil.getCurrentTime(),userId);
+    public JsonData addReview(int userId,String reviewContent,int reviewRate,int productId){
+        Review review = new Review(null,reviewRate,reviewContent, TimeUtil.getCurrentTime(),userId,productId);
         return GetResult.boReturn(reviewService.save(review));
     }
 }

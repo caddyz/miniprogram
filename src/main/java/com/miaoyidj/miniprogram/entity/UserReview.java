@@ -19,6 +19,7 @@ import java.io.Serializable;
 public class UserReview implements Serializable {
     private static final long serialVersionUID = -3461265538921975263L;
     private Integer rId;
+    private Integer pId;
     private int rRate;
     private String rContent;
     private String rReviewTime;

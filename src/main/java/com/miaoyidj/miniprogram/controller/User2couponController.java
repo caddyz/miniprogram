@@ -36,13 +36,14 @@ public class User2couponController {
 
     /**
      *  使用优惠券
-     * @param user2couponId
+     * @param userId 用户id
+     * @param couponId 优惠券id
      * @return
      */
     @GetMapping("/useCoupon")
-    public JsonData useCoupon(String user2couponId){
-        User2coupon user2coupon = user2couponService.getOne(new QueryWrapper<User2coupon>().eq("uc_id", user2couponId));
-        user2coupon.setUcStatus(true);
-        return GetResult.boReturn(user2couponService.update(user2coupon,new UpdateWrapper<User2coupon>().eq("uc_id", user2couponId)));
+    public JsonData useCoupon(int userId,int couponId){
+        User2coupon user2coupon = user2couponService.getOne(new QueryWrapper<User2coupon>().eq("u_id", userId).eq("c_id",couponId));
+        user2coupon.setUcStatus(false);
+        return GetResult.boReturn(user2couponService.update(user2coupon,new UpdateWrapper<User2coupon>().eq("u_id", userId).eq("c_id",couponId)));
     }
 }

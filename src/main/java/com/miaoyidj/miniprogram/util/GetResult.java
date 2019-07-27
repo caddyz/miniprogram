@@ -1,9 +1,7 @@
 package com.miaoyidj.miniprogram.util;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @ClassName: GetResult

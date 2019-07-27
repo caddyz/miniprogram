@@ -18,11 +18,12 @@ public interface IReviewService extends IService<Review> {
      *  获取最新评价
      * @return
      */
-    Review getLastReview();
+    UserReview getLastReview();
 
     /**
-     *  获取所有评价
+     *  根据Id查询评论
+     * @param productId 产品Id
      * @return
      */
-    List<UserReview> getAllReview();
+    List<UserReview> getAllReview(String productId);
 }

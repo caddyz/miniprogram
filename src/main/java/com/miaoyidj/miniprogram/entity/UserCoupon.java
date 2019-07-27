@@ -21,6 +21,5 @@ public class UserCoupon implements Serializable {
     private Integer ucId;
     private User user;
     private Coupon coupon;
-    private String ucMobile;
     private boolean ucStatus;
 }

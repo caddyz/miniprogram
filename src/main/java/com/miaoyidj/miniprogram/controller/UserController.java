@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.miaoyidj.miniprogram.entity.User;
 import com.miaoyidj.miniprogram.service.IUserService;
 import com.miaoyidj.miniprogram.util.*;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,13 +26,17 @@ public class UserController {
 
     /**
      *  根据id查询用户
-     * @param id 用户id
+     * @param openid 用户id
      * @return
      */
     @GetMapping("/getUserInfo")
-    public JsonData getUserInfo(String id) {
-        User one = userService.getOne(new QueryWrapper<User>().eq("u_id", id));
-        return GetResult.result(one);
+    public JsonData getUserInfo(String openid) {
+        try {
+            User one = userService.getOne(new QueryWrapper<User>().eq("u_openid", openid));
+            return GetResult.result(one);
+        } catch (MyBatisSystemException e) {
+            return new JsonData(null,"数据库出现重复数据",Constant.REPEAT_CODE,false);
+        }
     }
 
     /**
@@ -41,10 +46,14 @@ public class UserController {
      * @return
      */
     @GetMapping("/login")
-    public JsonData login(String openid,String username){
-        User user = new User(null,username,false,openid,0,0,"ssss");
-        boolean b = userService.save(user);
-        return GetResult.boReturn(b);
+    public JsonData login(String openid,String username,String avatar){
+        User one = userService.getOne(new QueryWrapper<User>().eq("u_openid", openid));
+        if (one == null) {
+            User user = new User(null,username,false,openid,0,0,avatar);
+            boolean b = userService.save(user);
+            return GetResult.boReturn(b);
+        }
+        return new JsonData(null,"数据库已存在数据",Constant.ISEXIT_CODE,false);
     }
 
     /**

@@ -19,12 +19,12 @@ import java.util.List;
 @Service
 public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> implements IReviewService {
     @Override
-    public Review getLastReview() {
+    public UserReview getLastReview() {
         return baseMapper.selectLastReview();
     }
 
     @Override
-    public List<UserReview> getAllReview() {
-        return baseMapper.selectAllReview();
+    public List<UserReview> getAllReview(String productId) {
+        return baseMapper.selectAllReview(productId);
     }
 }

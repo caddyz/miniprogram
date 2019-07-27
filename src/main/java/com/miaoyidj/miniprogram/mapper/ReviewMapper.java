@@ -3,6 +3,7 @@ package com.miaoyidj.miniprogram.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.miaoyidj.miniprogram.entity.Review;
 import com.miaoyidj.miniprogram.entity.UserReview;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,11 +19,12 @@ public interface ReviewMapper extends BaseMapper<Review> {
      * 查询最近的好评
      * @return
      */
-    Review selectLastReview();
+    UserReview selectLastReview();
 
     /**
-     *  查询所有评价
+     *  根据产品Id查询评论
+     * @param productId
      * @return
      */
-    List<UserReview> selectAllReview();
+    List<UserReview> selectAllReview(@Param("productId") String productId);
 }
