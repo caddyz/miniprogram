@@ -28,11 +28,6 @@ public class WxMaUserController {
         final WxMaService wxService = WxMaConfiguration.getMaService(appid);
         try {
             WxMaJscode2SessionResult session = wxService.getUserService().getSessionInfo(code);
-//            this.logger.info(session.getSessionKey());
-//            this.logger.info(session.getOpenid());
-            //TODO 可以增加自己的逻辑，关联业务相关数据
-            System.out.println("打印："+session.toString());
-            System.out.println("打印appid："+appid);
             return JsonUtil.toJson(session);
         } catch (WxErrorException e) {
             return e.toString();

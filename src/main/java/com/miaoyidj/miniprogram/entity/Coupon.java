@@ -24,4 +24,5 @@ public class Coupon implements Serializable {
     private BigDecimal cValue;
     private int cStatus;
     private String cAging;
+    private int cStandard;
 }

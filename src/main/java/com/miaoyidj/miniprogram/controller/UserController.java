@@ -2,14 +2,17 @@ package com.miaoyidj.miniprogram.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.miaoyidj.miniprogram.entity.Record;
 import com.miaoyidj.miniprogram.entity.User;
+import com.miaoyidj.miniprogram.service.IRecordService;
 import com.miaoyidj.miniprogram.service.IUserService;
 import com.miaoyidj.miniprogram.util.*;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 
 /**
  * @ClassName UserController
@@ -23,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IRecordService recordService;
 
     /**
      *  根据id查询用户
@@ -49,7 +54,7 @@ public class UserController {
     public JsonData login(String openid,String username,String avatar){
         User one = userService.getOne(new QueryWrapper<User>().eq("u_openid", openid));
         if (one == null) {
-            User user = new User(null,username,false,openid,0,0,avatar);
+            User user = new User(null,username,false,openid,new BigDecimal("0"),avatar,0,TimeUtil.getCurrentTime());
             boolean b = userService.save(user);
             return GetResult.boReturn(b);
         }
@@ -57,18 +62,41 @@ public class UserController {
     }
 
     /**
-     *  充值会员
-     * @param userId
+     *  会员充值并增加记录
+     * @param userId 用户id
+     * @param quota 金额
      * @return
      */
+    @Transactional
     @GetMapping("/member")
-    public JsonData toBeMember(String userId, int quota){
+    public JsonData toBeMember(int userId, String quota){
         User user = userService.getOne(new QueryWrapper<User>().eq("u_id", userId));
         user.setUStatus(true);
-        user.setUPoints(quota);
-        user.setUPoints(quota);
-        return GetResult.boReturn(userService.update(user,new UpdateWrapper<User>().eq("u_id", userId)));
+        user.setUMemberMoney(new BigDecimal(quota));
+        Record record = new Record(null,userId,new BigDecimal(quota),TimeUtil.getCurrentTime(),false);
+        return GetResult.boReturn(userService.update(user,new UpdateWrapper<User>().eq("u_id", userId)) && recordService.save(record));
     }
 
+    /**
+     * 检查会员信息
+     * @param userId 用户id
+     * @return
+     */
+    @GetMapping("/memberCheck")
+    public JsonData memberCheck(String userId){
+        User one = userService.getOne(new QueryWrapper<User>().eq("u_id", userId));
+        return GetResult.result(one);
+    }
 
+    /**
+     *  会员余额支付
+     * @param id 用户对象
+     * @return
+     */
+    @GetMapping("/memberPay")
+    public JsonData memberPay(int id,String name,String openid,boolean status,String meney,int points,String avater,String time){
+        User user = new User(id,name,status,openid,new BigDecimal(meney),avater,points,time);
+        boolean update = userService.update(user, new UpdateWrapper<User>().eq("u_id", id));
+        return GetResult.boReturn(update);
+    }
 }

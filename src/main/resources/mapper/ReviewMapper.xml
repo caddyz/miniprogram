@@ -16,5 +16,5 @@
         WHERE r.u_id = u.u_id AND r.p_id = #{productId}
     </select>
     <sql id="reviewColumn">r.r_id,r.u_id,r.r_content,r.r_review_time,r.r_rate,r.p_id,u.u_id,
-          u.u_name,u.u_status,u.u_openid,u.u_points,u.u_member_money,u_avatar</sql>
+          u.u_name,u.u_status,u.u_openid,u.u_points,u.u_point_update_time,u.u_member_money,u_avatar</sql>
 </mapper>

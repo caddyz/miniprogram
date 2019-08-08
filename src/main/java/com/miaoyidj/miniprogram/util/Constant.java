@@ -22,4 +22,21 @@ public class Constant {
      * 未知错误
      */
     public static final int UNKNOW_CODE = 110;
+
+    /**
+     * 支付回调地址
+     */
+    public static final String NOTIFY_URL = "https://miniapp.miaoyidj.com/api/pay/notify/order";
+
+    /**
+     *  交易类型
+     */
+    public static final String TRADE_TYPE = "JSAPI";
+    /**
+     *  支付类型
+     */
+    public static final String RECHARGE = "RECHARGE";
+    public static final String PAY = "PAY";
+
+
 }

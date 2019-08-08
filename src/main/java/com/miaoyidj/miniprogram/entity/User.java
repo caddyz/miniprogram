@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @ClassName User
@@ -22,7 +23,8 @@ public class User implements Serializable {
     private String uName;
     private boolean uStatus;
     private String uOpenid;
-    private int uPoints;
-    private int uMemberMoney;
+    private BigDecimal uMemberMoney;
     private String uAvatar;
+    private int uPoints;
+    private String uPointUpdateTime;
 }

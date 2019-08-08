@@ -1,9 +1,7 @@
 package com.miaoyidj.miniprogram.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.miaoyidj.miniprogram.entity.Image;
-import com.miaoyidj.miniprogram.service.IImageService;
+import com.miaoyidj.miniprogram.service.IIndex2productService;
 import com.miaoyidj.miniprogram.util.GetResult;
 import com.miaoyidj.miniprogram.util.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/image")
-public class ImageController {
+public class Index2productController {
     @Autowired
-    private IImageService imageService;
+    private IIndex2productService imageService;
     /**
      *  查询首页轮播，热门，推荐
      * @return

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.miaoyidj.miniprogram.mapper.ImageMapper">
+<mapper namespace="com.miaoyidj.miniprogram.mapper.Index2productMapper">
     <cache type="com.miaoyidj.miniprogram.config.RedisCacheMybatis">
         <property name="eviction" value="LRU"/>
     </cache>
@@ -9,7 +9,7 @@
         <collection property="product" column="p_id" ofType="com.miaoyidj.miniprogram.entity.Product" autoMapping="true"/>
     </resultMap>
     <select id="selectIndexProduct" resultMap="ProductIndexMap">
-        SELECT <include refid="ProductIndexColumn"/> FROM image i, product p WHERE i.p_id = p.p_id
+        SELECT <include refid="ProductIndexColumn"/> FROM index2product i, product p WHERE i.p_id = p.p_id
     </select>
     <sql id="ProductIndexColumn">i.i_id,i.i_status,i.i_contro,p.p_id,p.p_name,p.p_original_price,p.p_price,p.p_cover,p.p_intro_info,p.p_detail_info</sql>
 </mapper>

@@ -96,12 +96,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--&lt;!&ndash; log4j. &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>log4j</groupId>-->
-        <!--<artifactId>log4j</artifactId>-->
-        <!--<version>1.2.17</version>-->
-        <!--</dependency>-->
         <!-- log4j2依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -118,19 +112,6 @@
             <groupId>com.github.wxpay</groupId>
             <artifactId>wxpay-sdk</artifactId>
             <version>0.0.3</version>
-        </dependency>
-        <!--xml解析-->
-        <dependency>
-            <groupId>cl.symbiose</groupId>
-            <artifactId>dom4j-to-json</artifactId>
-            <version>1.1.2</version>
-            <classifier>sources</classifier>
-            <type>java-source</type>
-        </dependency>
-        <dependency>
-            <groupId>com.thoughtworks.xstream</groupId>
-            <artifactId>xstream</artifactId>
-            <version>1.2.2</version>
         </dependency>
 
         <dependency>

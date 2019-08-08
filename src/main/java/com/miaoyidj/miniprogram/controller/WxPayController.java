@@ -1,5 +1,8 @@
 package com.miaoyidj.miniprogram.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
@@ -8,8 +11,25 @@ import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
+import com.github.wxpay.sdk.WXPayUtil;
+import com.miaoyidj.miniprogram.entity.MemberOrder;
+import com.miaoyidj.miniprogram.entity.Miaoyiorder;
+import com.miaoyidj.miniprogram.entity.Record;
+import com.miaoyidj.miniprogram.entity.User;
+import com.miaoyidj.miniprogram.service.IMemberOrderServcie;
+import com.miaoyidj.miniprogram.service.IOrderService;
+import com.miaoyidj.miniprogram.service.IRecordService;
+import com.miaoyidj.miniprogram.service.IUserService;
+import com.miaoyidj.miniprogram.util.Constant;
+import com.miaoyidj.miniprogram.util.JsonData;
+import com.miaoyidj.miniprogram.util.NetworkInterfaceUtil;
+import com.miaoyidj.miniprogram.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ClassName WxPayController
@@ -24,15 +44,17 @@ public class WxPayController {
     private WxPayService wxService;
 
     @Autowired
+    private IOrderService orderService;
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IMemberOrderServcie memberOrderServcie;
+    @Autowired
+    private IRecordService recordService;
+
+    @Autowired
     public WxPayController(WxPayService wxService) {
         this.wxService = wxService;
-    }
-
-    @GetMapping("/test")
-    public String test(){
-        WxPayConfig config = wxService.getConfig();
-        System.out.println("appID："+config.getAppId());
-        return config.toString();
     }
 
     /**
@@ -103,10 +125,19 @@ public class WxPayController {
      * 在发起微信支付前，需要调用统一下单接口，获取"预支付交易会话标识"
      * 接口地址：https://api.mch.weixin.qq.com/pay/unifiedorder
      *
-     * @param request 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
+     * @param body 请求对象，注意一些参数如appid、mchid等不用设置，方法内会自动从配置对象中获取到（前提是对应配置中已经设置）
      */
     @PostMapping("/unifiedOrder")
-    public WxPayUnifiedOrderResult unifiedOrder(@RequestBody WxPayUnifiedOrderRequest request) throws WxPayException {
+    public WxPayUnifiedOrderResult unifiedOrder(@RequestBody JSONObject body) throws WxPayException {
+        WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
+        request.setNotifyUrl(Constant.NOTIFY_URL);
+        request.setTradeType(Constant.TRADE_TYPE);
+        request.setOpenid(body.getString("openid"));
+        request.setAttach(body.getString("attach"));
+        request.setBody(body.getString("bodyInfo"));
+        request.setOutTradeNo(body.getString("outTradeNo"));
+        request.setTotalFee(BaseWxPayRequest.yuanToFen(body.getString("totalFee")));
+        request.setSpbillCreateIp(NetworkInterfaceUtil.getMyIp());
         return this.wxService.unifiedOrder(request);
     }
 
@@ -166,6 +197,32 @@ public class WxPayController {
     public String parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
         final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
         // TODO 根据自己业务场景需要构造返回对象
+        String attach = notifyResult.getAttach();
+        if (attach.equals(Constant.RECHARGE)) {
+            String tradeNo = notifyResult.getOutTradeNo();
+            MemberOrder memberOrder = memberOrderServcie.getOne(new QueryWrapper<MemberOrder>().eq("m_order_no", tradeNo));
+            Integer uId = memberOrder.getUId();
+            User user = userService.getOne(new QueryWrapper<User>().eq("u_id", uId));
+            BigDecimal totalFee = memberOrder.getMTotalFee();
+            BigDecimal payFee = memberOrder.getMPayFee();
+            user.setUStatus(true);
+            BigDecimal memberMoney = user.getUMemberMoney();
+            BigDecimal decimal = memberMoney.add(totalFee);
+            user.setUMemberMoney(decimal);
+            userService.update(user,new UpdateWrapper<User>().eq("u_id", uId));
+            Record record = new Record(null,uId,payFee,TimeUtil.getCurrentTime(),false);
+            recordService.save(record);
+        }
+        if (attach.equals(Constant.PAY)) {
+            String tradeNo = notifyResult.getOutTradeNo();
+            Miaoyiorder one = orderService.getOne(new QueryWrapper<Miaoyiorder>().eq("o_number", tradeNo));
+            int uId = one.getUId();
+            BigDecimal payPrice = one.getOPayPrice();
+            one.setOStatus(2);
+            orderService.update(one,new UpdateWrapper<Miaoyiorder>().eq("o_number",tradeNo));
+            Record record = new Record(null,uId,payPrice,TimeUtil.getCurrentTime(),true);
+            recordService.save(record);
+        }
         return WxPayNotifyResponse.success("成功");
     }
 
@@ -182,4 +239,22 @@ public class WxPayController {
         return WxPayNotifyResponse.success("成功");
     }
 
+    @GetMapping("/secondSign")
+    public JsonData sencodeSign(String prepayId) throws Exception {
+        WxPayConfig config = wxService.getConfig();
+        String nonceStr = WXPayUtil.generateNonceStr();
+        String signTime = String.valueOf(TimeUtil.getSignTimeStmap());
+        Map<String,String> map = new HashMap<>(5);
+        map.put("appId",config.getAppId());
+        map.put("timeStamp",signTime);
+        map.put("nonceStr",nonceStr);
+        map.put("package",prepayId);
+        map.put("signType","MD5");
+        String signature = WXPayUtil.generateSignature(map, config.getMchKey());
+        Map<String,String> data = new HashMap<>(3);
+        data.put("str",nonceStr);
+        data.put("signTime", signTime);
+        data.put("signature",signature);
+        return new JsonData(data,"二次签名",Constant.SUCCESS_CODE,true);
+    }
 }

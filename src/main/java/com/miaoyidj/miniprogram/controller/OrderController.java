@@ -87,4 +87,16 @@ public class OrderController {
     public JsonData getOrderByOrderNo(String orderNo){
         return GetResult.result(orderService.getOrderByOrderNo(orderNo));
     }
+
+    /**
+     * 更新订单信息
+     * @param orderNo 订单号
+     * @return
+     */
+    @GetMapping("/orderPay")
+    public JsonData orderPay(String orderNo){
+        Miaoyiorder one = orderService.getOne(new QueryWrapper<Miaoyiorder>().eq("o_number", orderNo));
+        one.setOStatus(2);
+        return GetResult.result(orderService.update(one,new UpdateWrapper<Miaoyiorder>().eq("o_number",orderNo)));
+    }
 }
