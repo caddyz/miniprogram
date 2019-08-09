@@ -38,5 +38,16 @@ public class Constant {
     public static final String RECHARGE = "RECHARGE";
     public static final String PAY = "PAY";
 
-
+    /**
+     * 商户openid
+     */
+    public static  final String OPENID = "osMvt0MZbQN9eckWNNYbAyCmyLt4";
+    /**
+     * 模版ID
+     */
+    public static final String TEMPLATE = "YQcEXq2Qc4mZNMx8BT-TGPy9d7yaai3cpsR4F-8ch_o";
+    /**
+     * appSercret
+     */
+    public static final String APPSECRET = "cd9f53f9d7b5019389dd4491981af15c";
 }

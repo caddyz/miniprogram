@@ -1,10 +1,11 @@
 package com.miaoyidj.miniprogram.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.miaoyidj.miniprogram.entity.Button;
 import com.miaoyidj.miniprogram.entity.Miaoyirules;
+import com.miaoyidj.miniprogram.entity.Record;
 import com.miaoyidj.miniprogram.service.IButtonService;
 import com.miaoyidj.miniprogram.service.IMiaoyirulesService;
+import com.miaoyidj.miniprogram.service.IRecordService;
 import com.miaoyidj.miniprogram.service.IUsepointsService;
 import com.miaoyidj.miniprogram.util.Constant;
 import com.miaoyidj.miniprogram.util.GetResult;
@@ -33,6 +34,8 @@ public class InfoController {
     private IMiaoyirulesService miaoyirulesService;
     @Autowired
     private IUsepointsService usepointsService;
+    @Autowired
+    private IRecordService recordService;
 
     /**
      *  获取充值规则
@@ -58,5 +61,9 @@ public class InfoController {
 
     }
 
+    @GetMapping("/getConsumeRecord")
+    public JsonData consumeRecord(String userId){
+        return GetResult.result(recordService.list(new QueryWrapper<Record>().eq("u_id",userId)));
+    }
 
 }
