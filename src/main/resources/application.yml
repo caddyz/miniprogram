@@ -1,5 +1,6 @@
 db: miaoyidj
-add: localhost
+add: 5983276327e2b.sh.cdb.myqcloud.com
+dbport: 5345
 spring:
   profiles:
     active: dev
@@ -9,9 +10,9 @@ spring:
     #password: miaoyidj158
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${add}:3306/${db}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&tinyIntlisBit=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
+    url: jdbc:mysql://${add}:${dbport}/${db}?useUnicode=true&characterEncoding=UTF-8&useSSL=false&tinyIntlisBit=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=CONVERT_TO_NULL
     username: root
-    password: password
+    password: miaoyidj@158
 logging:
   config: classpath:log4j2.yml
 server:
