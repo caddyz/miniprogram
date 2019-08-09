@@ -60,7 +60,7 @@ public class User2couponController {
 
     @GetMapping("/couponNumber")
     public JsonData couponNumber(String userId){
-        int count = user2couponService.count(new QueryWrapper<User2coupon>().eq("u_id", userId).eq("us_status", 0));
+        int count = user2couponService.count(new QueryWrapper<User2coupon>().eq("u_id", userId).eq("uc_status", "0"));
         return new JsonData(count,"获取优惠券计数", Constant.SUCCESS_CODE,true);
     }
 }
