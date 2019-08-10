@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.miaoyidj.miniprogram.mapper.CouponMapper">
+    <select id="selectFullMark" resultType="com.miaoyidj.miniprogram.entity.Coupon">
+        SELECT c_id,c_name,c_value,c_status,c_aging,c_standard FROM coupon WHERE c_id = 2 AND DATEDIFF(c_aging,#{time}) &gt; 0
+    </select>
 </mapper>

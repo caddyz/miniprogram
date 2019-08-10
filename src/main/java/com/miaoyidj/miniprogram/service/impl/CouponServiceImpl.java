@@ -15,4 +15,8 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> implements ICouponService {
+    @Override
+    public Coupon getFullMark(String time) {
+        return baseMapper.selectFullMark(time);
+    }
 }

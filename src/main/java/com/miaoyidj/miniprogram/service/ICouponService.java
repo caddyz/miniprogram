@@ -11,4 +11,10 @@ import com.miaoyidj.miniprogram.entity.Coupon;
  * @Version 1.0
  **/
 public interface ICouponService extends IService<Coupon> {
+    /**
+     *  获取有效奇的满减优惠券
+     * @param time 时间
+     * @return
+     */
+    Coupon getFullMark(String time);
 }

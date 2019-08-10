@@ -6,6 +6,8 @@ import com.miaoyidj.miniprogram.mapper.Coupon2productMapper;
 import com.miaoyidj.miniprogram.service.ICoupon2productService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ProjectName: miniprogram
  * @Package: com.miaoyidj.miniprogram.service.impl
@@ -17,4 +19,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class Coupon2productServiceImpl extends ServiceImpl<Coupon2productMapper, Coupon2product> implements ICoupon2productService {
+    @Override
+    public List<Integer> getListSign() {
+        return baseMapper.selectListSign();
+    }
 }

@@ -3,6 +3,8 @@ package com.miaoyidj.miniprogram.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.miaoyidj.miniprogram.entity.Coupon2product;
 
+import java.util.List;
+
 /**
  * @ProjectName: miniprogram
  * @Package: com.miaoyidj.miniprogram.mapper
@@ -13,4 +15,9 @@ import com.miaoyidj.miniprogram.entity.Coupon2product;
  * @Version: 1.0
  */
 public interface Coupon2productMapper extends BaseMapper<Coupon2product> {
+
+    /**
+     * @return 获取单项优惠商品列表
+     */
+    List<Integer> selectListSign();
 }

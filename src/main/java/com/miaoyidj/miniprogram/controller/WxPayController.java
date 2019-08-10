@@ -207,47 +207,60 @@ public class WxPayController {
      * @return
      * @throws WxPayException
      */
-    @Transactional
     @PostMapping("/notify/order")
+    @Transactional(rollbackFor = Exception.class)
     public String parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
         final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
         // TODO 根据自己业务场景需要构造返回对象
         System.out.println("回调开始！！！！");
         String attach = notifyResult.getAttach();
+        String tradeNo = notifyResult.getOutTradeNo();
         if (attach.equals(Constant.RECHARGE)) {
             System.out.println("充值开始！！！！");
-            String tradeNo = notifyResult.getOutTradeNo();
-            MemberOrder memberOrder = memberOrderServcie.getOne(new QueryWrapper<MemberOrder>().eq("m_order_no", tradeNo));
-            Integer uId = memberOrder.getUId();
-            User user = userService.getOne(new QueryWrapper<User>().eq("u_id", uId));
-            BigDecimal totalFee = memberOrder.getMTotalFee();
-            BigDecimal payFee = memberOrder.getMPayFee();
-            user.setUStatus(true);
-            BigDecimal memberMoney = user.getUMemberMoney();
-            BigDecimal decimal = memberMoney.add(totalFee);
-            System.out.println("充值了多少："+totalFee.toString());
-            System.out.println("账户上多少："+payFee.toString());
-            System.out.println("加起来多少："+decimal.toString());
-            user.setUMemberMoney(decimal);
-            userService.update(user, new UpdateWrapper<User>().eq("u_id", uId));
-            Record record = new Record(null,uId,payFee,TimeUtil.getCurrentTime(),false);
-            recordService.save(record);
+            try {
+                MemberOrder memberOrder = memberOrderServcie.getOne(new QueryWrapper<MemberOrder>().eq("m_order_no", tradeNo));
+                if (!memberOrder.isMStatus()) {
+                    memberOrder.setMPayTime(TimeUtil.getCurrentTime());
+                    memberOrder.setMStatus(true);
+                }
+                Integer uId = memberOrder.getUId();
+                User user = userService.getOne(new QueryWrapper<User>().eq("u_id", uId));
+                BigDecimal totalFee = memberOrder.getMTotalFee();
+                BigDecimal payFee = memberOrder.getMPayFee();
+                user.setUStatus(true);
+                BigDecimal memberMoney = user.getUMemberMoney();
+                BigDecimal decimal = memberMoney.add(totalFee);
+                user.setUMemberMoney(decimal);
+                userService.update(user, new UpdateWrapper<User>().eq("u_id", uId));
+                Record record = new Record(null,uId,payFee,TimeUtil.getCurrentTime(),false);
+                recordService.save(record);
+                return WxPayNotifyResponse.success("成功");
+            } catch (Exception e) {
+                return WxPayNotifyResponse.fail("失败");
+            }
         }
         if (attach.equals(Constant.PAY)) {
             System.out.println("支付。。。。。");
-            String tradeNo = notifyResult.getOutTradeNo();
-            Miaoyiorder one = orderService.getOne(new QueryWrapper<Miaoyiorder>().eq("o_number", tradeNo));
-            int uId = one.getUId();
-            User user = userService.getOne(new QueryWrapper<User>().eq("u_id", uId));
-            BigDecimal payPrice = one.getOPayPrice();
-            one.setOStatus(2);
-            orderService.update(one,new UpdateWrapper<Miaoyiorder>().eq("o_number",tradeNo));
-            int points = user.getUPoints() + payPrice.intValue();
-            System.out.println("积分："+points);
-            user.setUPoints(points);
-            userService.update(user, new UpdateWrapper<User>().eq("u_id", uId));
-            Record record = new Record(null,uId,payPrice,TimeUtil.getCurrentTime(),true);
-            recordService.save(record);
+            try {
+                Miaoyiorder one = orderService.getOne(new QueryWrapper<Miaoyiorder>().eq("o_number", tradeNo));
+                if (one.getOStatus() == 1) {
+                    one.setOPayTime(TimeUtil.getCurrentTime());
+                    one.setOStatus(2);
+                    orderService.update(one,new UpdateWrapper<Miaoyiorder>().eq("o_number",tradeNo));
+                    int uId = one.getUId();
+                    User user = userService.getOne(new QueryWrapper<User>().eq("u_id", uId));
+                    BigDecimal payPrice = one.getOPayPrice();
+                    int points = user.getUPoints() + payPrice.intValue();
+                    System.out.println("积分："+points);
+                    user.setUPoints(points);
+                    userService.update(user, new UpdateWrapper<User>().eq("u_id", uId));
+                    Record record = new Record(null,uId,payPrice,TimeUtil.getCurrentTime(),true);
+                    recordService.save(record);
+                    return WxPayNotifyResponse.success("成功");
+                }
+            } catch (Exception e) {
+                return WxPayNotifyResponse.fail("失败");
+            }
         }
         return WxPayNotifyResponse.success("成功");
     }

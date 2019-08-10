@@ -3,6 +3,8 @@ package com.miaoyidj.miniprogram.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.miaoyidj.miniprogram.entity.Coupon2product;
 
+import java.util.List;
+
 /**
  * @ProjectName: miniprogram
  * @Package: com.miaoyidj.miniprogram.service
@@ -13,4 +15,9 @@ import com.miaoyidj.miniprogram.entity.Coupon2product;
  * @Version: 1.0
  */
 public interface ICoupon2productService extends IService<Coupon2product> {
+    /**
+     *  获取单项商品优惠列表
+     * @return
+     */
+    List<Integer> getListSign();
 }
