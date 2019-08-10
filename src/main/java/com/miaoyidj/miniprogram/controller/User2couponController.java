@@ -2,7 +2,9 @@ package com.miaoyidj.miniprogram.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.miaoyidj.miniprogram.entity.Coupon;
 import com.miaoyidj.miniprogram.entity.User2coupon;
+import com.miaoyidj.miniprogram.service.ICouponService;
 import com.miaoyidj.miniprogram.service.IUser2couponService;
 import com.miaoyidj.miniprogram.util.Constant;
 import com.miaoyidj.miniprogram.util.GetResult;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class User2couponController {
     @Autowired
     private IUser2couponService user2couponService;
+    @Autowired
+    private ICouponService couponService;
 
     /**
      *  获取用户优惠券
@@ -34,7 +38,6 @@ public class User2couponController {
     public JsonData getUserCoupon(String userId){
         return GetResult.result(user2couponService.getUserCoupon(userId));
     }
-
     /**
      *  使用优惠券
      * @param userId 用户id

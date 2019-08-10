@@ -26,7 +26,7 @@ public class Constant {
     /**
      * 支付回调地址
      */
-    public static final String NOTIFY_URL = "https://miniapp.miaoyidj.com/api/pay/notify/order";
+    public static final String NOTIFY_URL = "http://vfut3x.natappfree.cc/api/pay/notify/order";
 
     /**
      *  交易类型
@@ -50,4 +50,25 @@ public class Constant {
      * appSercret
      */
     public static final String APPSECRET = "cd9f53f9d7b5019389dd4491981af15c";
+
+    /**
+     * 短信应用 SDK AppID SDK AppID 以1400开头
+     */
+    public static final int SDKAPPID = 1400241154;
+    /**
+     * 短信应用 SDK AppKey
+     */
+    public static final String SDKAPPKEY = "dd8b8c49ec66ae10be55895ecbe7394c";
+    /**
+     * 需要发送短信的手机号码
+     */
+    public static final String PHONENUMBER = "18116585239";
+    /**
+     * 短信模板 ID，需要在短信应用中申请
+     */
+    public static final int TEMPLATEID = 393210;
+    /**
+     * 真实的签名需要在短信控制台申请
+     */
+    public static final String SMSSIGN = "妙伊科技";
 }

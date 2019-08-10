@@ -130,11 +130,12 @@
             <artifactId>weixin-java-miniapp</artifactId>
             <version>3.4.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.github.binarywang</groupId>-->
-<!--            <artifactId>weixin-java-mp</artifactId>-->
-<!--            <version>3.4.0</version>-->
-<!--        </dependency>-->
+        <!--腾讯短信-->
+        <dependency>
+            <groupId>com.github.qcloudsms</groupId>
+            <artifactId>qcloudsms</artifactId>
+            <version>1.0.6</version>
+        </dependency>
     </dependencies>
 
     <build>

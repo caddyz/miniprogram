@@ -19,12 +19,11 @@ import com.github.binarywang.wxpay.bean.result.*;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
+import com.github.qcloudsms.SmsSingleSender;
+import com.github.qcloudsms.httpclient.HTTPException;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.google.common.collect.Lists;
-import com.miaoyidj.miniprogram.entity.MemberOrder;
-import com.miaoyidj.miniprogram.entity.Miaoyiorder;
-import com.miaoyidj.miniprogram.entity.Record;
-import com.miaoyidj.miniprogram.entity.User;
+import com.miaoyidj.miniprogram.entity.*;
 import com.miaoyidj.miniprogram.properties.WxMaProperties;
 import com.miaoyidj.miniprogram.service.IMemberOrderServcie;
 import com.miaoyidj.miniprogram.service.IOrderService;
@@ -36,8 +35,10 @@ import com.miaoyidj.miniprogram.util.NetworkInterfaceUtil;
 import com.miaoyidj.miniprogram.util.TimeUtil;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
@@ -149,6 +150,7 @@ public class WxPayController {
         request.setBody(body.getString("bodyInfo"));
         request.setOutTradeNo(body.getString("outTradeNo"));
         request.setTotalFee(BaseWxPayRequest.yuanToFen(body.getString("totalFee")));
+        System.out.println("金额："+BaseWxPayRequest.yuanToFen(body.getString("totalFee")));
         request.setSpbillCreateIp(NetworkInterfaceUtil.getMyIp());
         return this.wxService.unifiedOrder(request);
     }
@@ -205,6 +207,7 @@ public class WxPayController {
      * @return
      * @throws WxPayException
      */
+    @Transactional
     @PostMapping("/notify/order")
     public String parseOrderNotifyResult(@RequestBody String xmlData) throws WxPayException {
         final WxPayOrderNotifyResult notifyResult = this.wxService.parseOrderNotifyResult(xmlData);
@@ -222,19 +225,27 @@ public class WxPayController {
             user.setUStatus(true);
             BigDecimal memberMoney = user.getUMemberMoney();
             BigDecimal decimal = memberMoney.add(totalFee);
+            System.out.println("充值了多少："+totalFee.toString());
+            System.out.println("账户上多少："+payFee.toString());
+            System.out.println("加起来多少："+decimal.toString());
             user.setUMemberMoney(decimal);
-            boolean update = userService.update(user, new UpdateWrapper<User>().eq("u_id", uId));
+            userService.update(user, new UpdateWrapper<User>().eq("u_id", uId));
             Record record = new Record(null,uId,payFee,TimeUtil.getCurrentTime(),false);
-            boolean save = recordService.save(record);
+            recordService.save(record);
         }
         if (attach.equals(Constant.PAY)) {
             System.out.println("支付。。。。。");
             String tradeNo = notifyResult.getOutTradeNo();
             Miaoyiorder one = orderService.getOne(new QueryWrapper<Miaoyiorder>().eq("o_number", tradeNo));
             int uId = one.getUId();
+            User user = userService.getOne(new QueryWrapper<User>().eq("u_id", uId));
             BigDecimal payPrice = one.getOPayPrice();
             one.setOStatus(2);
             orderService.update(one,new UpdateWrapper<Miaoyiorder>().eq("o_number",tradeNo));
+            int points = user.getUPoints() + payPrice.intValue();
+            System.out.println("积分："+points);
+            user.setUPoints(points);
+            userService.update(user, new UpdateWrapper<User>().eq("u_id", uId));
             Record record = new Record(null,uId,payPrice,TimeUtil.getCurrentTime(),true);
             recordService.save(record);
         }
@@ -274,26 +285,31 @@ public class WxPayController {
     }
 
     @GetMapping("/sendMessage")
-    public void sendMessage(String prepayId) throws WxErrorException {
-        WxPayConfig wxPayConfig = this.wxService.getConfig();
-        // 配置
-        WxMaInMemoryConfig config = new WxMaInMemoryConfig();
-        config.setAppid(wxPayConfig.getAppId());
-        config.setSecret(Constant.APPSECRET);
-        WxMaService wxMaService = new WxMaServiceImpl();
-        wxMaService.setWxMaConfig(config);
-        // 推送
-        WxMaTemplateMessage wxMaTemplateMessage = WxMaTemplateMessage.builder()
-                .toUser(Constant.OPENID)
-                .formId(prepayId)
-                .templateId(Constant.TEMPLATE)
-                .data(Lists.newArrayList(
-                        new WxMaTemplateData("keyword1", "339208499"),
-                        new WxMaTemplateData("keyword2", "339208499"),
-                        new WxMaTemplateData("keyword3", "339208499"),
-                        new WxMaTemplateData("keyword4", "339208499"),
-                        new WxMaTemplateData("keyword5", "339208499")))
-                .build();
-        wxMaService.getMsgService().sendTemplateMsg(wxMaTemplateMessage);
+    public void sendMessage(String orderNo) throws HTTPException, IOException {
+        OrderSelect orderSelect = orderService.getOrderByOrderNo(orderNo);
+        Address orderSelectAddress = orderSelect.getAddress();
+        String[] params = {orderSelect.getONumber(),orderSelectAddress.getAAddress()+orderSelectAddress.getAAddressDetail(),orderSelectAddress.getAMobile()};
+        SmsSingleSender sender = new SmsSingleSender(Constant.SDKAPPID,Constant.SDKAPPKEY);
+        sender.sendWithParam("86",Constant.PHONENUMBER,Constant.TEMPLATEID,params,Constant.SMSSIGN,"","");
+//        WxPayConfig wxPayConfig = this.wxService.getConfig();
+//        // 配置
+//        WxMaInMemoryConfig config = new WxMaInMemoryConfig();
+//        config.setAppid(wxPayConfig.getAppId());
+//        config.setSecret(Constant.APPSECRET);
+//        WxMaService wxMaService = new WxMaServiceImpl();
+//        wxMaService.setWxMaConfig(config);
+//        // 推送
+//        WxMaTemplateMessage wxMaTemplateMessage = WxMaTemplateMessage.builder()
+//                .toUser(Constant.OPENID)
+//                .formId(prepayId)
+//                .templateId(Constant.TEMPLATE)
+//                .data(Lists.newArrayList(
+//                        new WxMaTemplateData("keyword1", orderSelect.getProduct().getPName()),
+//                        new WxMaTemplateData("keyword2", orderSelect.getOSubscribeTime() + "点"),
+//                        new WxMaTemplateData("keyword3", orderSelectAddress.getAAddress() + orderSelectAddress.getAAddressDetail()),
+//                        new WxMaTemplateData("keyword4", orderSelectAddress.getAName()),
+//                        new WxMaTemplateData("keyword5", orderSelectAddress.getAMobile())))
+//                .build();
+//        wxMaService.getMsgService().sendTemplateMsg(wxMaTemplateMessage);
     }
 }
