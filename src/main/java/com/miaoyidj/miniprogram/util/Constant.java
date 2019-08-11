@@ -26,7 +26,7 @@ public class Constant {
     /**
      * 支付回调地址
      */
-    public static final String NOTIFY_URL = "http://vfut3x.natappfree.cc/api/pay/notify/order";
+    public static final String NOTIFY_URL = "http://sxhigw.natappfree.cc/api/pay/notify/order";
 
     /**
      *  交易类型
@@ -37,20 +37,6 @@ public class Constant {
      */
     public static final String RECHARGE = "RECHARGE";
     public static final String PAY = "PAY";
-
-    /**
-     * 商户openid
-     */
-    public static  final String OPENID = "osMvt0MZbQN9eckWNNYbAyCmyLt4";
-    /**
-     * 模版ID
-     */
-    public static final String TEMPLATE = "YQcEXq2Qc4mZNMx8BT-TGPy9d7yaai3cpsR4F-8ch_o";
-    /**
-     * appSercret
-     */
-    public static final String APPSECRET = "cd9f53f9d7b5019389dd4491981af15c";
-
     /**
      * 短信应用 SDK AppID SDK AppID 以1400开头
      */

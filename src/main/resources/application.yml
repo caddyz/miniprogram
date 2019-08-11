@@ -21,7 +21,7 @@ server:
     context-path: /api/
 wx:
   pay:
-    appId: wx33593e56c8dba956
+    appId: wxaeff3e157d8ba51c
     #微信支付商户号
     mchId: 1344617301
     #微信支付商户密钥
@@ -30,6 +30,6 @@ wx:
     keyPath: classpath:/cert/v.p12
   miniapp:
     configs:
-      - appid: wx33593e56c8dba956
-        secret: cd9f53f9d7b5019389dd4491981af15c
+      - appid: wxaeff3e157d8ba51c
+        secret: 1ac4fdb3e9e71eb0593a85a8be8b2e43
         msgDataFormat: JSON
