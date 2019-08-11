@@ -106,4 +106,14 @@ public class UserController {
         one.setUPoints(one.getUPoints() - points);
         return GetResult.boReturn(userService.update(one,new UpdateWrapper<User>().eq("u_id",userId)));
     }
+
+    @GetMapping("/getUserInfoById")
+    public JsonData getUserInfoById(int uid) {
+        try {
+            User one = userService.getOne(new QueryWrapper<User>().eq("u_id", uid));
+            return GetResult.result(one);
+        } catch (MyBatisSystemException e) {
+            return new JsonData(null,"数据库出现重复数据",Constant.REPEAT_CODE,false);
+        }
+    }
 }

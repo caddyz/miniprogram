@@ -20,4 +20,11 @@ public interface IUser2couponService extends IService<User2coupon> {
      * @return
      */
     List<Coupon> getUserCoupon(String userId);
+
+    /**
+     *  领取新人优惠
+     * @param entity 实体类
+     * @return
+     */
+    boolean userNewGet(User2coupon entity);
 }

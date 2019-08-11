@@ -78,7 +78,7 @@ public class User2couponController {
     }
 
     /**
-     * 领取新人优惠
+     * 领取优惠
      * @param userId 用户id
      * @param couponId 优惠🆔
      * @return
@@ -106,5 +106,21 @@ public class User2couponController {
     @GetMapping("/getMemberCoupon")
     public JsonData getMemberCoupon(){
         return GetResult.result(couponService.getOne(new QueryWrapper<Coupon>().eq("c_id","4")));
+    }
+
+    /**
+     * 领取新人优惠
+     * @param userId 用户id
+     * @param couponId 优惠🆔
+     * @return
+     */
+    @GetMapping("/userGetNewCoupon")
+    public JsonData userGetNewCoupon(int userId, int couponId){
+        User2coupon one = user2couponService.getOne(new QueryWrapper<User2coupon>().eq("u_id", userId).eq("c_id", couponId));
+        if (one == null) {
+            User2coupon user2coupon = new User2coupon(null,userId,couponId,false);
+            return GetResult.boReturn(user2couponService.save(user2coupon));
+        }
+        return new JsonData(null,"已经领取过了", 101,false);
     }
 }
