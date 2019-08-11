@@ -1,6 +1,6 @@
 db: miaoyidj
-add: 5983276327e2b.sh.cdb.myqcloud.com
-dbport: 5345
+add: 10.66.220.228
+dbport: 3306
 spring:
   profiles:
     active: dev
