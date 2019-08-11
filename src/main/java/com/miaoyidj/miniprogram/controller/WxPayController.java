@@ -289,7 +289,7 @@ public class WxPayController {
     public void sendMessage(String orderNo) throws HTTPException, IOException {
         OrderSelect orderSelect = orderService.getOrderByOrderNo(orderNo);
         Address orderSelectAddress = orderSelect.getAddress();
-        String[] params = {orderSelect.getONumber(),orderSelectAddress.getAAddress()+orderSelectAddress.getAAddressDetail(),orderSelectAddress.getAMobile()};
+        String[] params = {orderSelectAddress.getAName(),orderSelectAddress.getAAddress()+orderSelectAddress.getAAddressDetail(),orderSelectAddress.getAMobile(),orderSelect.getOUserMessage()};
         SmsSingleSender sender = new SmsSingleSender(Constant.SDKAPPID,Constant.SDKAPPKEY);
         sender.sendWithParam("86",Constant.PHONENUMBER,Constant.TEMPLATEID,params,Constant.SMSSIGN,"","");
     }

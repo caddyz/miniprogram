@@ -66,7 +66,7 @@ public class Constant {
     /**
      * 短信模板 ID，需要在短信应用中申请
      */
-    public static final int TEMPLATEID = 393210;
+    public static final int TEMPLATEID = 393448;
     /**
      * 真实的签名需要在短信控制台申请
      */
