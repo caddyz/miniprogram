@@ -119,7 +119,7 @@ public class User2couponController {
         User2coupon one = user2couponService.getOne(new QueryWrapper<User2coupon>().eq("u_id", userId).eq("c_id", couponId));
         if (one == null) {
             User2coupon user2coupon = new User2coupon(null,userId,couponId,false);
-            return GetResult.boReturn(user2couponService.save(user2coupon));
+            return GetResult.boReturn(user2couponService.userNewGet(user2coupon));
         }
         return new JsonData(null,"已经领取过了", 101,false);
     }
