@@ -1,13 +1,5 @@
 package com.miaoyidj.miniprogram.controller;
 
-import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.api.impl.WxMaServiceImpl;
-import cn.binarywang.wx.miniapp.bean.WxMaMessage;
-import cn.binarywang.wx.miniapp.bean.WxMaTemplateData;
-import cn.binarywang.wx.miniapp.bean.WxMaTemplateMessage;
-import cn.binarywang.wx.miniapp.config.WxMaInMemoryConfig;
-import cn.binarywang.wx.miniapp.message.WxMaMessageHandler;
-import cn.binarywang.wx.miniapp.message.WxMaMessageInterceptor;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -22,9 +14,7 @@ import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.qcloudsms.SmsSingleSender;
 import com.github.qcloudsms.httpclient.HTTPException;
 import com.github.wxpay.sdk.WXPayUtil;
-import com.google.common.collect.Lists;
 import com.miaoyidj.miniprogram.entity.*;
-import com.miaoyidj.miniprogram.properties.WxMaProperties;
 import com.miaoyidj.miniprogram.service.IMemberOrderServcie;
 import com.miaoyidj.miniprogram.service.IOrderService;
 import com.miaoyidj.miniprogram.service.IRecordService;
@@ -33,7 +23,6 @@ import com.miaoyidj.miniprogram.util.Constant;
 import com.miaoyidj.miniprogram.util.JsonData;
 import com.miaoyidj.miniprogram.util.NetworkInterfaceUtil;
 import com.miaoyidj.miniprogram.util.TimeUtil;
-import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +30,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -304,25 +292,5 @@ public class WxPayController {
         String[] params = {orderSelect.getONumber(),orderSelectAddress.getAAddress()+orderSelectAddress.getAAddressDetail(),orderSelectAddress.getAMobile()};
         SmsSingleSender sender = new SmsSingleSender(Constant.SDKAPPID,Constant.SDKAPPKEY);
         sender.sendWithParam("86",Constant.PHONENUMBER,Constant.TEMPLATEID,params,Constant.SMSSIGN,"","");
-//        WxPayConfig wxPayConfig = this.wxService.getConfig();
-//        // 配置
-//        WxMaInMemoryConfig config = new WxMaInMemoryConfig();
-//        config.setAppid(wxPayConfig.getAppId());
-//        config.setSecret(Constant.APPSECRET);
-//        WxMaService wxMaService = new WxMaServiceImpl();
-//        wxMaService.setWxMaConfig(config);
-//        // 推送
-//        WxMaTemplateMessage wxMaTemplateMessage = WxMaTemplateMessage.builder()
-//                .toUser(Constant.OPENID)
-//                .formId(prepayId)
-//                .templateId(Constant.TEMPLATE)
-//                .data(Lists.newArrayList(
-//                        new WxMaTemplateData("keyword1", orderSelect.getProduct().getPName()),
-//                        new WxMaTemplateData("keyword2", orderSelect.getOSubscribeTime() + "点"),
-//                        new WxMaTemplateData("keyword3", orderSelectAddress.getAAddress() + orderSelectAddress.getAAddressDetail()),
-//                        new WxMaTemplateData("keyword4", orderSelectAddress.getAName()),
-//                        new WxMaTemplateData("keyword5", orderSelectAddress.getAMobile())))
-//                .build();
-//        wxMaService.getMsgService().sendTemplateMsg(wxMaTemplateMessage);
     }
 }

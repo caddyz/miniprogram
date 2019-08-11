@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.sql.Time;
 
 @RestController
 @RequestMapping("/order")
@@ -96,6 +97,7 @@ public class OrderController {
     @GetMapping("/orderPay")
     public JsonData orderPay(String orderNo){
         Miaoyiorder one = orderService.getOne(new QueryWrapper<Miaoyiorder>().eq("o_number", orderNo));
+        one.setOPayTime(TimeUtil.getCurrentTime());
         one.setOStatus(2);
         return GetResult.result(orderService.update(one,new UpdateWrapper<Miaoyiorder>().eq("o_number",orderNo)));
     }

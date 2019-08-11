@@ -99,4 +99,11 @@ public class UserController {
         boolean update = userService.update(user, new UpdateWrapper<User>().eq("u_id", id));
         return GetResult.boReturn(update);
     }
+
+    @GetMapping("/usePoints")
+    public JsonData usePoints(String userId, int points){
+        User one = userService.getOne(new QueryWrapper<User>().eq("u_id", userId));
+        one.setUPoints(one.getUPoints() - points);
+        return GetResult.boReturn(userService.update(one,new UpdateWrapper<User>().eq("u_id",userId)));
+    }
 }
