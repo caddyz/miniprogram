@@ -26,7 +26,7 @@ public class Constant {
     /**
      * 支付回调地址
      */
-    public static final String NOTIFY_URL = "http://sxhigw.natappfree.cc/api/pay/notify/order";
+    public static final String NOTIFY_URL = "https://miniapp.miaoyidj.com/api/pay/notify/order";
 
     /**
      *  交易类型
